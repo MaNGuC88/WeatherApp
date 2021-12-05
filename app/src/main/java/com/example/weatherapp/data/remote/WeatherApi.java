@@ -12,7 +12,8 @@ public interface WeatherApi {
 
     @GET("weather?")
     Call<WeatherResponse> getWeathers(
-            @Query("q") String city,
+            @Query("lon") Double longitude,
+            @Query("lat") Double latitude,
             @Query("units") String units,
             @Query("appid") String apiKey
     );

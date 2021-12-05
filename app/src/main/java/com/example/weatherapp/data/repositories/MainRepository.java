@@ -19,8 +19,9 @@ import retrofit2.Response;
 public class MainRepository {
 
     private WeatherApi api;
-    private String cityName;
     private WeatherDao dao;
+    private Double longitude;
+    private Double latitude;
 
     @Inject
     public MainRepository(WeatherApi api, WeatherDao dao) {
@@ -28,14 +29,15 @@ public class MainRepository {
         this.dao = dao;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCoordinates(Double longitude, Double latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public MutableLiveData<Resource<WeatherResponse>> getWeather() {
         MutableLiveData<Resource<WeatherResponse>> liveData = new MutableLiveData<>();
         liveData.setValue(Resource.loading());
-        api.getWeathers(cityName,"metric", "1db948b82d5438ce0a50de69cba2b36c")
+        api.getWeathers(longitude, latitude,"metric", "1db948b82d5438ce0a50de69cba2b36c")
                 .enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {

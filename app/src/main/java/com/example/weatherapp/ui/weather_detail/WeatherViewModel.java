@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.weatherapp.common.Resource;
-import com.example.weatherapp.data.models.Weather;
 import com.example.weatherapp.data.models.WeatherResponse;
 import com.example.weatherapp.data.repositories.MainRepository;
 
@@ -16,11 +15,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class WeatherViewModel extends ViewModel {
 
     private MainRepository repository;
-    private String cityName;
     public WeatherResponse weatherResponse;
+    private Double longitude;
+    private Double latitude;
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCoordinates(Double longitude, Double latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public LiveData<Resource<WeatherResponse>> weatherLiveData;
@@ -31,11 +32,11 @@ public class WeatherViewModel extends ViewModel {
     }
 
     public void fetchWeather() {
-        repository.setCityName(cityName);
+        repository.setCoordinates(longitude, latitude);
         weatherLiveData = repository.getWeather();
     }
 
-    public WeatherResponse fetchWeatherFromDatabase() {
+    public WeatherResponse fetchWeatherFromDB() {
         weatherResponse = repository.getWeatherFromDatabase();
         return weatherResponse;
     }
